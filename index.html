@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="/media/luciano/Arquivos/Dev/firebase/firebase.js"></script>
+        <script>
+            function Logar(){
+                var email = document.getElementById("email");
+                var password = document.getElementById("password");
+                Firebase_Login(email,password);
+            }
+        </script>
+    </head>
+    <body>
+        <label for="email">Email: </label><input type="email" placeholder="Email..." id="email"><br>
+        <label for="password">Senha: </label><input type="email" placeholder="Senha..." id="password"><br>
+        <button onclick="Logar()">Clicar</button>
+        <button onclick="LogarGoogle()">Google</button>
+        <button onclick="Firebase_Logout()">Logout</button>
+
+        <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-analytics.js"></script>
+        <script>
+            var firebaseConfig = {
+              apiKey: ,
+              authDomain: ,
+              databaseURL: ,
+              projectId: ,
+              storageBucket: ,
+              messagingSenderId: ,
+              appId: ,
+              measurementId: 
+            };
+          // Initialize Firebase
+          firebase.initializeApp(firebaseConfig);
+          firebase.analytics();
+        </script>
+        <script src="script/index.js"></script>
+    </body>
+</html>
