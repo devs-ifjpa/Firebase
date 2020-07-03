@@ -1,3 +1,5 @@
+var database = firebase.database();
+
 // LOGIN DEFAULT
 
 function Firebase_Login(userEmail,userPass){
@@ -26,19 +28,66 @@ function Firebase_Logout(){
 
 // $LOGOUT
 
-// LOGIN GOOGLE
+// REGISTER
 
-// $LOGIN GOOGLE
+    document.getElementById("Form_Register").addEventListener("submit", () => {
+        event.preventDefault();
+        var name = document.getElementById("name").value;
+        var phone = document.getElementById("phone").value;
+        Firebase_RegisterEmail(email,password,[name,phone]);
+    })
 
-// LOGIN FACEBOOK
+    function Firebase_RegisterEmail(email,password,data){
+        var email = email.value;
+        var password = password.value;
+        if(email != "" && password != ""){
+            var errorcont = 0;
+            firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+                errorcont ++;
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                errorMessage == "The email address is already in use by another account." ?
+                    alert('O endereço de email já está sendo usado por outra conta.') : false;
+            });
+            errorcont == 0 && data.length > 0 ? Firebase_RegisterDatabase(email,password,data) : false;
+        }
+    }
+  
+    function Firebase_RegisterDatabase(email,password,data){
+        firebase.auth().signInWithEmailAndPassword(email, password);
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                var user = firebase.auth().currentUser;
+                firebase.database().ref('users/' + user.uid).set({
+                    name: data[0],
+                    phone: data[1]
+                });        
+                Firebase_Logout();
+            }
+        });
+    }
+  
+// $REGISTER
 
-// $LOGIN FACEBOOK
+// REGISTER ALTERNATIVE
 
-// CADASTRAR
+function Firebase_AlternativeLogin(type,data){
+    if(type == "Google" || type == "google"){
+        var provider = new firebase.auth.GoogleAuthProvider();
+    }
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+        var token = result.credential.accessToken;
+        var user = result.user;
+    }).catch(function(error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        var email = error.email;
+        var credential = error.credential;
+    });
+}
 
-
-
-// $CADASTRAR
+// $REGISTER ALTERNATIVE
 
 
 // SIGNED
@@ -46,7 +95,9 @@ function Firebase_Logout(){
 firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
         // User is signed in.
+        document.querySelector("body").style.backgroundColor = "red";
     } else{
+        document.querySelector("body").style.backgroundColor = "blue";
     }
 });
 
